@@ -1,0 +1,391 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Outfit:wght@100..900&display=swap');
+
+/* Global Resets & Variables */
+:root {
+  --primary-color: #df9939;
+  --primary-hover: #c9842b;
+  --bg-color: #ffffff; /* Premium solid white canvas */
+  --text-dark: #111111;
+  --text-muted: #666666;
+  --border-color: #e5e5e5;
+  --font-sans: 'Open Sans', Arial, sans-serif;
+  --font-heading: 'Outfit', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  font-family: var(--font-sans);
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Page Banner (Header Strip) - Minimalist, centered, no backgrounds or dividing lines */
+.shorya-custom-header-strip-container {
+  width: 100% !important;
+  height: 180px !important;
+  background-color: #ffffff !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.shorya-custom-title-white-block {
+  background: transparent !important;
+  padding: 0 !important;
+  z-index: 2 !important;
+  position: relative !important;
+  text-align: center !important;
+}
+
+.shorya-custom-title-text-value {
+  margin: 0 !important;
+  font-family: var(--font-heading) !important;
+  font-size: 40px !important;
+  font-weight: 800 !important;
+  color: #111111 !important;
+  letter-spacing: -0.8px !important;
+  line-height: 1.2 !important;
+  text-transform: none !important;
+}
+
+/* Gallery Layout Container - No lines or dividers */
+.shorya-compact-gallery-outer-wrapper {
+  width: 100% !important;
+  max-width: 1200px !important;
+  padding: 20px 30px 80px 30px !important;
+  box-sizing: border-box !important;
+  background-color: #ffffff !important;
+  margin: 0 auto !important;
+}
+
+.shorya-gallery-intro-text {
+  font-family: var(--font-sans) !important;
+  font-size: 15px !important;
+  line-height: 1.8 !important;
+  color: var(--text-muted) !important;
+  margin: 0 auto 40px auto !important;
+  text-align: center !important;
+  max-width: 800px;
+}
+
+/* Grid Matrix - Exactly 4 columns per row */
+.shorya-gallery-grid-three-columns-matrix {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 30px 20px !important;
+  width: 100% !important;
+}
+
+@media (max-width: 1024px) {
+  .shorya-gallery-grid-three-columns-matrix {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .shorya-gallery-grid-three-columns-matrix {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .shorya-gallery-grid-three-columns-matrix {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Gallery Thumbnail Card - Minimalist layout, no title text */
+.shorya-gallery-thumbnail-card-frame {
+  width: 100% !important;
+  background: #ffffff !important;
+  padding: 0px !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.shorya-gallery-thumbnail-image-clipping-box {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 180px !important;
+  background-color: #ffffff !important;
+  padding: 6px !important;
+  border: 1px solid #dddddd !important;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.06) !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  position: relative !important;
+  margin: 0 auto !important;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s, box-shadow 0.3s !important;
+}
+
+.shorya-gallery-thumbnail-card-frame:hover .shorya-gallery-thumbnail-image-clipping-box {
+  transform: translateY(-4px) !important;
+  border-color: #999999 !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.shorya-gallery-thumbnail-img-asset {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+  image-rendering: -webkit-optimize-contrast !important;
+  border: 1px solid #eeeeee !important;
+  box-sizing: border-box !important;
+  transition: opacity 0.3s ease !important;
+}
+
+.shorya-gallery-thumbnail-card-frame:hover .shorya-gallery-thumbnail-img-asset {
+  opacity: 0.9 !important;
+}
+
+/* Inner shadow depth overlay */
+.shorya-gallery-thumbnail-inner-shadow-overlay {
+  position: absolute !important;
+  top: 6px !important;
+  left: 6px !important;
+  right: 6px !important;
+  bottom: 6px !important;
+  pointer-events: none !important;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.1) !important;
+  box-sizing: border-box !important;
+  z-index: 2 !important;
+}
+
+/* Simple single overlay effect indicator on hover */
+.shorya-gallery-hover-overlay {
+  position: absolute !important;
+  top: 6px !important;
+  left: 6px !important;
+  right: 6px !important;
+  bottom: 6px !important;
+  background: rgba(0, 0, 0, 0.2) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  opacity: 0 !important;
+  transition: opacity 0.3s ease !important;
+  z-index: 5 !important;
+}
+
+.shorya-gallery-thumbnail-card-frame:hover .shorya-gallery-hover-overlay {
+  opacity: 1 !important;
+}
+
+.shorya-gallery-hover-indicator-circle {
+  color: #ffffff;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.65);
+  border-radius: 50%;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  pointer-events: none;
+  transform: scale(0.85);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.shorya-gallery-thumbnail-card-frame:hover .shorya-gallery-hover-indicator-circle {
+  transform: scale(1);
+}
+
+.shorya-gallery-hover-icon {
+  width: 24px;
+  height: 24px;
+  stroke: #ffffff;
+  transition: stroke 0.3s ease;
+}
+
+
+/* ==========================================================================
+   LIGHTBOX MODAL
+   ========================================================================= */
+
+.lightbox-modal-shroud {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(8, 8, 8, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.lightbox-modal-shroud.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Close Button */
+.lightbox-close-btn {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 32px;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  z-index: 100002;
+  transition: background-color 0.25s, color 0.25s, transform 0.25s;
+}
+
+.lightbox-close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  transform: rotate(90deg);
+}
+
+/* Navigation Buttons */
+.lightbox-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 24px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 100001;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.lightbox-nav-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.lightbox-nav-btn:active {
+  transform: translateY(-50%) scale(0.92);
+}
+
+.prev-btn {
+  left: 30px;
+}
+
+.next-btn {
+  right: 30px;
+}
+
+/* Content Container */
+.lightbox-content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 76vw;
+  max-height: 86vh;
+  position: relative;
+  z-index: 100000;
+  animation: lightboxZoomIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes lightboxZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Image Wrapper with soft background */
+.lightbox-image-wrapper {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.lightbox-main-img {
+  max-width: 100%;
+  max-height: 68vh;
+  object-fit: contain;
+  border-radius: 4px;
+  display: block;
+  user-select: none;
+}
+
+/* Actions Panel */
+.lightbox-actions-panel {
+  width: 100%;
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 0 10px;
+}
+
+.lightbox-photo-counter {
+  color: rgba(255, 255, 255, 0.7);
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .lightbox-nav-btn {
+    width: 46px;
+    height: 46px;
+    font-size: 18px;
+  }
+  .prev-btn {
+    left: 10px;
+  }
+  .next-btn {
+    right: 10px;
+  }
+  .lightbox-content-container {
+    max-width: 82vw;
+  }
+  .lightbox-main-img {
+    max-height: 60vh;
+  }
+  .lightbox-actions-panel {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    margin-top: 15px;
+  }
+}
