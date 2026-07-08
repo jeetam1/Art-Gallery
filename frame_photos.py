@@ -8,8 +8,8 @@ import numpy as np
 from PIL import Image, ImageOps
 import os
 
-INPUT_DIR = "public"
-OUTPUT_DIR = os.path.join("public", "framed")
+INPUT_DIR = "raw_images"
+OUTPUT_DIR = "public"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # Default gentle crop: 2% from each edge
@@ -61,8 +61,20 @@ def process_image(filename):
     bordered = Image.new('RGB', (new_w, new_h), (255, 255, 255))
     bordered.paste(cropped, (border_px, border_px))
     
-    bordered.save(output_path, "JPEG", quality=92, optimize=True)
-    print(f"{w}x{h} -> {new_w}x{new_h}")
+    # Save main high-res framed image as progressive JPEG
+    bordered.save(output_path, "JPEG", quality=90, optimize=True, progressive=True)
+    
+    # Create thumbnails directory
+    thumb_dir = os.path.join(OUTPUT_DIR, "thumbnails")
+    os.makedirs(thumb_dir, exist_ok=True)
+    
+    # Generate and save compressed progressive thumbnail (max 450px)
+    thumb = bordered.copy()
+    thumb.thumbnail((450, 450), Image.Resampling.LANCZOS)
+    thumb_path = os.path.join(thumb_dir, filename)
+    thumb.save(thumb_path, "JPEG", quality=75, optimize=True, progressive=True)
+    
+    print(f"{w}x{h} -> {new_w}x{new_h} (thumbnail saved)")
     return True
 
 

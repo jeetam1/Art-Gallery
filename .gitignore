@@ -45,3 +45,6 @@ venv/
 .venv/
 pip-log.txt
 pip-delete-this-directory.txt
+
+# Local raw paintings (source folder)
+raw_images/
