@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
-const filenames = Array.from({ length: 17 }, (_, i) => `${i + 1}.jpeg`);
+const filenames = Array.from({ length: 31 }, (_, i) => `${i + 1}.jpeg`);
 
 const items = filenames.map((filename, index) => ({
   id: index + 1,
-  src: `/${filename}`
+  src: `/framed/${filename}`
 }));
+
 
 
 export default function App() {
