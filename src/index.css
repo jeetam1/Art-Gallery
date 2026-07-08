@@ -495,10 +495,29 @@ body {
   user-select: none !important;
 }
 
-/* Hide on mobile/tablet screens to prevent overlap */
+/* Sleek Top Horizontal Progress Bar (Hidden on Desktop, Visible on Mobile) */
+.shorya-top-scroll-progress-bar {
+  display: none !important;
+}
+
+/* Mobile & Tablet Adjustments - Avoid overlap completely */
 @media (max-width: 1024px) {
+  /* Hide vertical zig-zag completely on small viewports to prevent disrupting artwork views */
   .shorya-zigzag-scroll-progress-container {
     display: none !important;
+  }
+  
+  /* Show horizontal top progress bar instead */
+  .shorya-top-scroll-progress-bar {
+    display: block !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    height: 3.5px !important;
+    background-color: var(--primary-color) !important;
+    z-index: 100000 !important;
+    box-shadow: 0 1px 4px rgba(223, 153, 57, 0.4) !important;
+    transition: width 0.08s ease-out !important;
   }
 }
 

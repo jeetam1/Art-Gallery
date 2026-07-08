@@ -481,6 +481,9 @@ export default function App() {
         </svg>
       </div>
 
+      {/* Sleek Top Horizontal Progress Bar for Mobile/Tablet */}
+      <div className="shorya-top-scroll-progress-bar" style={{ width: `${scrollProgress * 100}%` }}></div>
+
       {/* Scroll to Top Floating Action Button */}
       <button 
         className={`shorya-scroll-to-top-btn ${showScrollTop ? 'visible' : ''}`}
