@@ -269,7 +269,7 @@ export default function App() {
       {/* Main Gallery Section - No dividing line */}
       <div className="shorya-compact-gallery-outer-wrapper">
         <p className="shorya-gallery-intro-text">
-          Hover over any photo to reveal the magnifying glass, then click to view the painting in a full-screen lightbox.
+          Explore a curated exhibition of contemporary acrylic on canvas paintings—a visual journey of nature, texture, and color.
         </p>
 
         {/* Row-wise masonry layout using distributed columns */}
