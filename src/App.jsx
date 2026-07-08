@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
-const filenames = [
-  "1.jpeg", "2.jpeg", "3.jpeg", "4.jpeg", "5.jpeg", "6.jpeg", "7.jpeg", "8.jpeg", "9.jpeg", "10.jpeg"
-];
+const filenames = Array.from({ length: 17 }, (_, i) => `${i + 1}.jpeg`);
 
 const items = filenames.map((filename, index) => ({
   id: index + 1,
-  src: `processed/${filename}`
+  src: `/${filename}`
 }));
+
 
 export default function App() {
   const [lightboxItem, setLightboxItem] = useState(null);
