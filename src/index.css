@@ -4,7 +4,8 @@
 :root {
   --primary-color: #df9939;
   --primary-hover: #c9842b;
-  --bg-color: #ffffff; /* Premium solid white canvas */
+  --bg-color: #ffffff;
+  /* Premium solid white canvas */
   --text-dark: #111111;
   --text-muted: #666666;
   --border-color: #e5e5e5;
@@ -29,35 +30,98 @@ body {
   box-sizing: border-box;
 }
 
-/* Page Banner (Header Strip) - Minimalist, centered, no backgrounds or dividing lines */
-.shorya-custom-header-strip-container {
+#root, .shorya-acrylic-canvas-view-root {
   width: 100% !important;
-  height: 180px !important;
-  background-color: #ffffff !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: none !important;
+}
+
+/* Immersive Acrylic Art Header */
+.shorya-art-header-container {
+  width: 100% !important;
+  height: 220px !important;
+  background-image: url('/header_bg_raw.jpeg') !important;
+  background-size: cover !important;
+  background-position: center !important;
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-.shorya-custom-title-white-block {
-  background: transparent !important;
-  padding: 0 !important;
-  z-index: 2 !important;
   position: relative !important;
-  text-align: center !important;
+  padding: 20px !important;
+  border-bottom: 1px solid #f0e8df !important;
 }
 
-.shorya-custom-title-text-value {
-  margin: 0 !important;
+/* Semi-transparent blur overlay tag card */
+.shorya-art-header-card {
+  position: relative !important;
+  z-index: 2 !important;
+  max-width: 800px !important;
+  width: 100% !important;
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(223, 153, 57, 0.22) !important;
+  border-radius: 16px !important;
+  padding: 20px 30px !important;
+  box-shadow: 
+    0 15px 35px rgba(223, 153, 57, 0.05),
+    0 5px 15px rgba(0, 0, 0, 0.02) !important;
+  text-align: center !important;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+.shorya-art-header-card:hover {
+  border-color: rgba(223, 153, 57, 0.38) !important;
+  box-shadow: 
+    0 20px 45px rgba(223, 153, 57, 0.08),
+    0 8px 20px rgba(0, 0, 0, 0.03) !important;
+}
+
+.shorya-art-header-title {
+  margin: 0 0 12px 0 !important;
   font-family: var(--font-heading) !important;
-  font-size: 40px !important;
+  font-size: 38px !important;
   font-weight: 800 !important;
   color: #111111 !important;
   letter-spacing: -0.8px !important;
   line-height: 1.2 !important;
-  text-transform: none !important;
+}
+
+.shorya-art-header-amp {
+  color: #111111 !important;
+  font-family: Georgia, serif !important;
+  font-style: italic !important;
+  font-weight: 300 !important;
+  padding: 0 4px !important;
+}
+
+.shorya-art-header-subtitle {
+  margin: 0 !important;
+  font-family: var(--font-sans) !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+  color: var(--text-muted) !important;
+  max-width: 620px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+@media (max-width: 768px) {
+  .shorya-art-header-container {
+    height: 170px !important;
+    padding: 15px !important;
+  }
+  .shorya-art-header-card {
+    padding: 12px 15px !important;
+  }
+  .shorya-art-header-title {
+    font-size: 28px !important;
+  }
+  .shorya-art-header-subtitle {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+  }
 }
 
 /* Gallery Layout Container - No lines or dividers */
@@ -102,9 +166,11 @@ body {
     --frame-border: 8px;
     --lightbox-frame-border: 10px;
   }
+
   .shorya-gallery-grid-three-columns-matrix {
     gap: 16px !important;
   }
+
   .gallery-masonry-column {
     gap: 16px !important;
   }
@@ -124,19 +190,25 @@ body {
   padding: 0px !important;
   box-sizing: border-box !important;
   cursor: pointer !important;
-  display: inline-block !important; /* Required for column masonry */
-  break-inside: avoid !important;   /* Prevent card breaking across columns */
-  margin-bottom: 24px !important;    /* Vertical spacing in masonry columns */
+  display: inline-block !important;
+  /* Required for column masonry */
+  break-inside: avoid !important;
+  /* Prevent card breaking across columns */
+  margin-bottom: 24px !important;
+  /* Vertical spacing in masonry columns */
 }
 
 .shorya-gallery-thumbnail-image-clipping-box {
   width: 100% !important;
   max-width: 100% !important;
-  height: auto !important; /* Adapt height dynamically to the photo aspect ratio */
-  background-color: #111111 !important; /* Realistic dark shadow groove */
+  height: auto !important;
+  /* Adapt height dynamically to the photo aspect ratio */
+  background-color: #111111 !important;
+  /* Realistic dark shadow groove */
   padding: 2px !important;
-  border: var(--frame-border) solid #231c17 !important; /* Realistic dark solid-wood frame border */
-  box-shadow: 
+  border: var(--frame-border) solid #231c17 !important;
+  /* Realistic dark solid-wood frame border */
+  box-shadow:
     /* Inner bevel light highlight */
     inset 0 0 0 1px rgba(255, 255, 255, 0.08),
     /* Inner shadow cast onto the painting/matting */
@@ -156,8 +228,9 @@ body {
 
 .shorya-gallery-thumbnail-card-frame:hover .shorya-gallery-thumbnail-image-clipping-box {
   transform: translateY(-8px) scale(1.01) !important;
-  border-color: #312720 !important; /* Highlight frame color on hover */
-  box-shadow: 
+  border-color: #312720 !important;
+  /* Highlight frame color on hover */
+  box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.12),
     inset 0 0 12px rgba(0, 0, 0, 0.7),
     0 0 0 1px rgba(0, 0, 0, 0.95),
@@ -167,11 +240,14 @@ body {
 
 .shorya-gallery-thumbnail-img-asset {
   width: 100% !important;
-  height: auto !important; /* Let height flow naturally to prevent cropping */
-  object-fit: contain !important; /* Retain full painting details */
+  height: auto !important;
+  /* Let height flow naturally to prevent cropping */
+  object-fit: contain !important;
+  /* Retain full painting details */
   display: block !important;
   image-rendering: -webkit-optimize-contrast !important;
-  border: 1px solid rgba(0, 0, 0, 0.08) !important; /* Subtle boundary border */
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  /* Subtle boundary border */
   box-sizing: border-box !important;
   transition: opacity 0.3s ease !important;
 }
@@ -340,15 +416,18 @@ body {
   max-height: 86vh;
   position: relative;
   z-index: 100000;
-  animation: lightboxZoomIn 0.28s cubic-bezier(0.25, 1, 0.5, 1); /* Decelerating transition, fast and fluid */
+  animation: lightboxZoomIn 0.28s cubic-bezier(0.25, 1, 0.5, 1);
+  /* Decelerating transition, fast and fluid */
   will-change: transform, opacity;
 }
 
 @keyframes lightboxZoomIn {
   from {
     opacity: 0;
-    transform: scale(0.96) translate3d(0, 8px, 0); /* GPU-accelerated translate3d */
+    transform: scale(0.96) translate3d(0, 8px, 0);
+    /* GPU-accelerated translate3d */
   }
+
   to {
     opacity: 1;
     transform: scale(1) translate3d(0, 0, 0);
@@ -357,10 +436,12 @@ body {
 
 /* Image Wrapper with realistic dark wood gallery frame */
 .lightbox-image-wrapper {
-  background-color: #111111 !important; /* Outer shadow gap */
+  background-color: #111111 !important;
+  /* Outer shadow gap */
   padding: 2px !important;
-  border: var(--lightbox-frame-border) solid #231c17 !important; /* Responsive solid wood border */
-  box-shadow: 
+  border: var(--lightbox-frame-border) solid #231c17 !important;
+  /* Responsive solid wood border */
+  box-shadow:
     /* Inner light catcher edge */
     inset 0 0 0 1px rgba(255, 255, 255, 0.08),
     /* Inner shadow cast on image matting */
@@ -379,7 +460,8 @@ body {
   max-width: 100%;
   max-height: 65vh;
   object-fit: contain;
-  border-radius: 0 !important; /* Remove rounding for realistic frame fit */
+  border-radius: 0 !important;
+  /* Remove rounding for realistic frame fit */
   display: block;
   user-select: none;
 }
@@ -408,7 +490,8 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  background-color: rgba(35, 28, 23, 0.85); /* Matches ebony wood frame theme */
+  background-color: rgba(35, 28, 23, 0.85);
+  /* Matches ebony wood frame theme */
   padding: 6px 14px;
   border-radius: 30px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -461,18 +544,23 @@ body {
     height: 46px;
     font-size: 18px;
   }
+
   .prev-btn {
     left: 10px;
   }
+
   .next-btn {
     right: 10px;
   }
+
   .lightbox-content-container {
     max-width: 82vw;
   }
+
   .lightbox-main-img {
     max-height: 60vh;
   }
+
   .lightbox-actions-panel {
     flex-direction: column;
     gap: 12px;
@@ -487,10 +575,13 @@ body {
   right: 20px !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
-  height: 50vh !important; /* Shorter path as requested */
-  width: 80px !important; /* Slightly wider to fit the larger circle */
+  height: 50vh !important;
+  /* Shorter path as requested */
+  width: 80px !important;
+  /* Slightly wider to fit the larger circle */
   z-index: 9999 !important;
-  pointer-events: auto !important; /* Allow clicking/dragging */
+  pointer-events: auto !important;
+  /* Allow clicking/dragging */
   display: block !important;
   user-select: none !important;
 }
@@ -502,11 +593,12 @@ body {
 
 /* Mobile & Tablet Adjustments - Avoid overlap completely */
 @media (max-width: 1024px) {
+
   /* Hide vertical zig-zag completely on small viewports to prevent disrupting artwork views */
   .shorya-zigzag-scroll-progress-container {
     display: none !important;
   }
-  
+
   /* Show horizontal top progress bar instead */
   .shorya-top-scroll-progress-bar {
     display: block !important;

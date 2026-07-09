@@ -1,16 +1,29 @@
 import React, { useState, useEffect } from 'react';
+import { aspectRatios } from './aspectRatios';
 
-const priority = ['89.jpeg', '90.jpeg', '61.jpeg'];
-const newImages = Array.from({ length: 11 }, (_, i) => `${156 + i}.jpeg`);
-const baseFilenames = Array.from({ length: 166 }, (_, i) => `${i + 1}.jpeg`);
-const remaining = baseFilenames.filter(f => !priority.includes(f) && !newImages.includes(f));
-const filenames = [...newImages, ...priority, ...remaining];
+const filenames = Array.from({ length: 125 }, (_, i) => `${i + 1}.jpeg`);
 
-const items = filenames.map((filename, index) => ({
-  id: index + 1,
-  src: `/${filename}`,
-  thumbSrc: `/thumbnails/${filename}`
-}));
+const rawItems = filenames.map((filename, index) => {
+  const id = index + 1;
+  return {
+    id,
+    src: `/${filename}`,
+    thumbSrc: `/thumbnails/${filename}`,
+    aspectRatio: aspectRatios[id] || 1.0
+  };
+});
+
+// Group by portrait (long) and landscape (short) orientations
+const portraitItems = rawItems.filter(item => item.aspectRatio < 1.0);
+const landscapeItems = rawItems.filter(item => item.aspectRatio >= 1.0);
+
+// Interleave portrait and landscape items for a perfect orientation mix
+const items = [];
+const maxLen = Math.max(portraitItems.length, landscapeItems.length);
+for (let i = 0; i < maxLen; i++) {
+  if (i < portraitItems.length) items.push(portraitItems[i]);
+  if (i < landscapeItems.length) items.push(landscapeItems[i]);
+}
 
 function useWindowWidth() {
   const [width, setWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
@@ -74,7 +87,7 @@ export default function App() {
     const rect = container.getBoundingClientRect();
     const relativeY = clientY - rect.top;
     const fraction = Math.max(0, Math.min(1, relativeY / rect.height));
-    
+
     // Update local state immediately for instant responsive tracking
     setScrollProgress(fraction);
 
@@ -205,7 +218,7 @@ export default function App() {
     });
   };
 
-  // Row-wise masonry column distribution
+  // Dynamic height-balanced masonry column distribution
   const width = useWindowWidth();
   let colsCount = 4;
   if (width <= 480) colsCount = 1;
@@ -213,8 +226,21 @@ export default function App() {
   else if (width <= 1024) colsCount = 3;
 
   const columns = Array.from({ length: colsCount }, () => []);
-  items.forEach((item, index) => {
-    columns[index % colsCount].push(item);
+  const colHeights = Array.from({ length: colsCount }, () => 0);
+
+  items.forEach((item) => {
+    // Find column with the minimum cumulative height
+    let minColIdx = 0;
+    let minHeight = colHeights[0];
+    for (let i = 1; i < colsCount; i++) {
+      if (colHeights[i] < minHeight) {
+        minHeight = colHeights[i];
+        minColIdx = i;
+      }
+    }
+    columns[minColIdx].push(item);
+    // Relative height is 1 / aspectRatio (since width is constant)
+    colHeights[minColIdx] += (1 / item.aspectRatio);
   });
 
   // Lightbox keyboard navigation
@@ -259,19 +285,21 @@ export default function App() {
 
   return (
     <div className="shorya-acrylic-canvas-view-root">
-      
-      {/* Centered clean header, no images or black overlays */}
-      <div className="shorya-custom-header-strip-container">
-        <div className="shorya-custom-title-white-block">
-          <h1 className="shorya-custom-title-text-value">Shreya Mahanot and Swathi Mahanot</h1>
+
+      {/* Immersive Acrylic Art Header */}
+      <div className="shorya-art-header-container">
+        <div className="shorya-art-header-card">
+          <h1 className="shorya-art-header-title">
+            Shreya <span className="shorya-art-header-amp">&amp;</span> Shruti Mahanot
+          </h1>
+          <p className="shorya-art-header-subtitle">
+            A curated exhibition of contemporary paintings—a visual journey of nature, texture, and color.
+          </p>
         </div>
       </div>
 
       {/* Main Gallery Section - No dividing line */}
       <div className="shorya-compact-gallery-outer-wrapper">
-        <p className="shorya-gallery-intro-text">
-          Explore a curated exhibition of contemporary acrylic on canvas paintings—a visual journey of nature, texture, and color.
-        </p>
 
         {/* Row-wise masonry layout using distributed columns */}
         <div className="shorya-gallery-grid-three-columns-matrix">
@@ -313,15 +341,15 @@ export default function App() {
           <button className="lightbox-close-btn" onClick={closeLightbox} aria-label="Close lightbox">
             &times;
           </button>
-          
+
           <button className="lightbox-nav-btn prev-btn" onClick={(e) => { e.stopPropagation(); handlePrevLightbox(); }} aria-label="Previous photo">
             &#10094;
           </button>
-          
+
           <div className="lightbox-content-container" onClick={(e) => e.stopPropagation()}>
-            <div 
-              className="lightbox-image-wrapper" 
-              style={{ 
+            <div
+              className="lightbox-image-wrapper"
+              style={{
                 transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoomScale}) rotate(${rotationAngle}deg)`,
                 cursor: zoomScale > 1 ? (isDragging ? 'grabbing' : 'grab') : 'default',
                 transition: isDragging ? 'none' : 'transform 0.15s ease-out',
@@ -342,17 +370,17 @@ export default function App() {
                 draggable={false}
               />
             </div>
-            
+
             <div className="lightbox-actions-panel">
               <span className="lightbox-photo-counter">
                 Artwork {items.findIndex(it => it.id === lightboxItem.id) + 1} of {items.length}
               </span>
-              
+
               <div className="lightbox-controls-group">
-                <button 
-                  className="lightbox-control-btn" 
-                  onClick={handleZoomOut} 
-                  title="Zoom Out" 
+                <button
+                  className="lightbox-control-btn"
+                  onClick={handleZoomOut}
+                  title="Zoom Out"
                   disabled={zoomScale <= 1}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -361,13 +389,13 @@ export default function App() {
                     <line x1="8" y1="11" x2="14" y2="11"></line>
                   </svg>
                 </button>
-                
+
                 <span className="lightbox-zoom-level">{Math.round(zoomScale * 100)}%</span>
-                
-                <button 
-                  className="lightbox-control-btn" 
-                  onClick={handleZoomIn} 
-                  title="Zoom In" 
+
+                <button
+                  className="lightbox-control-btn"
+                  onClick={handleZoomIn}
+                  title="Zoom In"
                   disabled={zoomScale >= 3}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -377,32 +405,32 @@ export default function App() {
                     <line x1="8" y1="11" x2="14" y2="11"></line>
                   </svg>
                 </button>
-                
-                <button 
-                  className="lightbox-control-btn" 
-                  onClick={handleRotate} 
+
+                <button
+                  className="lightbox-control-btn"
+                  onClick={handleRotate}
                   title="Rotate 90° Clockwise"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                    <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
                   </svg>
                 </button>
 
-                <button 
-                  className="lightbox-control-btn" 
-                  onClick={handleReset} 
-                  title="Reset Scale & Rotation" 
+                <button
+                  className="lightbox-control-btn"
+                  onClick={handleReset}
+                  title="Reset Scale & Rotation"
                   disabled={zoomScale === 1 && rotationAngle === 0}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
-                    <polyline points="3 3 3 8 8 8"/>
+                    <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+                    <polyline points="3 3 3 8 8 8" />
                   </svg>
                 </button>
               </div>
             </div>
           </div>
-          
+
           <button className="lightbox-nav-btn next-btn" onClick={(e) => { e.stopPropagation(); handleNextLightbox(); }} aria-label="Next photo">
             &#10095;
           </button>
@@ -410,7 +438,7 @@ export default function App() {
       )}
 
       {/* Vertical Zig-Zag Scroll Progress Indicator (Right Hand Side) */}
-      <div 
+      <div
         ref={containerRef}
         className="shorya-zigzag-scroll-progress-container"
         onMouseDown={handleIndicatorMouseDown}
@@ -436,7 +464,7 @@ export default function App() {
             strokeLinecap="round"
             strokeLinejoin="round"
           />
-          
+
           {/* Active colored smooth wavy path */}
           {pathLength > 0 && (
             <path
@@ -449,32 +477,32 @@ export default function App() {
               strokeDashoffset={pathLength - (scrollProgress * pathLength)}
             />
           )}
-          
+
           {/* Favicon indicator moving smoothly on the path */}
-          <g 
-            transform={`translate(${iconPos.x}, ${iconPos.y})`} 
-            style={{ 
+          <g
+            transform={`translate(${iconPos.x}, ${iconPos.y})`}
+            style={{
               transition: isScrollingDrag ? 'none' : 'transform 0.18s cubic-bezier(0.25, 1, 0.5, 1)',
               cursor: isScrollingDrag ? 'grabbing' : 'grab'
             }}
           >
             {/* White circle background with drop shadow and gold border */}
-            <circle 
-              cx="0" 
-              cy="0" 
-              r="26" 
-              fill="#ffffff" 
-              stroke="#df9939" 
-              strokeWidth="3.5" 
-              style={{ filter: 'drop-shadow(0px 3px 8px rgba(0, 0, 0, 0.22))' }} 
+            <circle
+              cx="0"
+              cy="0"
+              r="26"
+              fill="#ffffff"
+              stroke="#df9939"
+              strokeWidth="3.5"
+              style={{ filter: 'drop-shadow(0px 3px 8px rgba(0, 0, 0, 0.22))' }}
             />
             {/* Circular clipped favicon (large image shifted so center painting fills the circle) */}
-            <image 
-              href="/favicon.png" 
-              x="-25" 
-              y="-25" 
-              width="50" 
-              height="50" 
+            <image
+              href="/favicon.png"
+              x="-25"
+              y="-25"
+              width="50"
+              height="50"
               clipPath="url(#favicon-circle-clip)"
               style={{ pointerEvents: 'none' }}
             />
@@ -486,7 +514,7 @@ export default function App() {
       <div className="shorya-top-scroll-progress-bar" style={{ width: `${scrollProgress * 100}%` }}></div>
 
       {/* Scroll to Top Floating Action Button */}
-      <button 
+      <button
         className={`shorya-scroll-to-top-btn ${showScrollTop ? 'visible' : ''}`}
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         title="Scroll to Top"
