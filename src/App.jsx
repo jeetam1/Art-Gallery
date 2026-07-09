@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 
 const priority = ['89.jpeg', '90.jpeg', '61.jpeg'];
-const baseFilenames = Array.from({ length: 155 }, (_, i) => `${i + 1}.jpeg`);
-const remaining = baseFilenames.filter(f => !priority.includes(f));
-const filenames = [...priority, ...remaining];
+const newImages = Array.from({ length: 11 }, (_, i) => `${156 + i}.jpeg`);
+const baseFilenames = Array.from({ length: 166 }, (_, i) => `${i + 1}.jpeg`);
+const remaining = baseFilenames.filter(f => !priority.includes(f) && !newImages.includes(f));
+const filenames = [...newImages, ...priority, ...remaining];
 
 const items = filenames.map((filename, index) => ({
   id: index + 1,

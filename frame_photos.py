@@ -44,7 +44,11 @@ def process_image(filename):
     img = ImageOps.exif_transpose(img)
     w, h = img.size
     
-    left_pct, top_pct, right_pct, bottom_pct = CROP_MAP.get(filename, DEFAULT_CROP)
+    is_new_photo = filename.endswith('.jpeg') and filename[:-5].isdigit() and 156 <= int(filename[:-5]) <= 166
+    if is_new_photo:
+        left_pct = top_pct = right_pct = bottom_pct = 0.0
+    else:
+        left_pct, top_pct, right_pct, bottom_pct = CROP_MAP.get(filename, DEFAULT_CROP)
     
     left = int(w * left_pct)
     top = int(h * top_pct)
